@@ -1,4 +1,5 @@
 ﻿using System;
+using Basket;
 using Enums;
 using UnityEngine;
 
@@ -34,11 +35,13 @@ namespace Ball
             if (_directionStates == DirectionStates.Right)
             {
                 RightDirection();
+               
             }
 
             if (_directionStates == DirectionStates.Left)
             {
                 LeftDirection();
+                
             }
         }
 
@@ -67,24 +70,26 @@ namespace Ball
             {
                 _directionStates = DirectionStates.Left;
                 LeftDirection();
+                BasketSignals.Instance.onChangeBasketDirection?.Invoke();
             }
             else if (_directionStates == DirectionStates.Left)
             {
                 _directionStates = DirectionStates.Right;
                 RightDirection();
+                BasketSignals.Instance.onChangeBasketDirection?.Invoke();
             }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("In"))
-            {
-                isInside = true;
-            }
-
             if (other.CompareTag("Enter"))
             {
                 isEnter = true;
+            }
+
+            if (other.CompareTag("In"))
+            {
+                isInside = true;
             }
         }
 
@@ -112,12 +117,8 @@ namespace Ball
                 {
                     isEnter = false;
                     isInside = false;
-                    
+                    ChangeDirection();
                 }
-                ChangeDirection();
-                //Skora Sinyal çakılacak
-                // Pota Direction State değişcek
-                
             }
         }
     }

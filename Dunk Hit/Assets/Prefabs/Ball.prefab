@@ -256,8 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e6b05fce2794c7dabd6b28477b6dd04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballManager: {fileID: 8883212643998820166}
   rigidbody: {fileID: 7002112039117743613}
   Speed: 1.5
-  JumpForce: 7
+  JumpForce: 6
   Direction: 1
