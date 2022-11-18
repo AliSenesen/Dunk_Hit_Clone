@@ -6,13 +6,16 @@ namespace Ball
 {
     public class BallController : MonoBehaviour
     {
-        [SerializeField] private BallManager ballManager;
         [SerializeField] private Rigidbody2D rigidbody;
-       
+
         private InputManager _ınputManager;
         private GameStates _currentState;
         private DirectionStates _directionStates;
-        
+
+        private bool isEnter = false;
+        private bool isInside = false;
+        private bool isOut = false;
+
         public float Speed;
         public float JumpForce;
         public int Direction = 1;
@@ -32,35 +35,35 @@ namespace Ball
             {
                 RightDirection();
             }
-           if (_directionStates == DirectionStates.Left)
-           {
-               LeftDirection();
-           }
 
-          
+            if (_directionStates == DirectionStates.Left)
+            {
+                LeftDirection();
+            }
         }
+
         public void Jump()
 
         {
             rigidbody.isKinematic = false;
-            rigidbody.AddForce(Vector2.up * JumpForce,ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
         }
 
         void RightDirection()
         {
             Direction = (_directionStates == DirectionStates.Right) ? 1 : -1;
-            rigidbody.AddForce(new Vector2((float)Direction*Speed,0f));
+            rigidbody.AddForce(new Vector2((float)Direction * Speed, 0f));
         }
 
         void LeftDirection()
         {
             Direction = (_directionStates == DirectionStates.Left) ? -1 : 1;
-            rigidbody.AddForce(new Vector2((float)Direction*Speed,0f));
+            rigidbody.AddForce(new Vector2((float)Direction * Speed, 0f));
         }
 
         public void ChangeDirection()
         {
-            if (_directionStates == DirectionStates.Right )
+            if (_directionStates == DirectionStates.Right)
             {
                 _directionStates = DirectionStates.Left;
                 LeftDirection();
@@ -76,7 +79,45 @@ namespace Ball
         {
             if (other.CompareTag("In"))
             {
+                isInside = true;
+            }
+
+            if (other.CompareTag("Enter"))
+            {
+                isEnter = true;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.CompareTag("RightWall"))
+            {
+                if (Direction == 1)
+
+                {
+                    transform.position = new Vector2(-other.transform.position.x, transform.position.y);
+                }
+            }
+            else if (other.CompareTag("LeftWall"))
+            {
+                if (Direction == -1)
+                {
+                    transform.position = new Vector2(-other.transform.position.x, transform.position.y);
+                }
+            }
+
+            if (other.CompareTag("Out"))
+            {
+                if (isEnter == true && isInside == true)
+                {
+                    isEnter = false;
+                    isInside = false;
+                    
+                }
                 ChangeDirection();
+                //Skora Sinyal çakılacak
+                // Pota Direction State değişcek
+                
             }
         }
     }

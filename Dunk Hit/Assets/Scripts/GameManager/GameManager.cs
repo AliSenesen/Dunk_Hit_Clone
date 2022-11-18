@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameStates CurrentState;
+    private GameStates _currentState;
 
     private void Awake()
     {
@@ -37,14 +37,14 @@ public class GameManager : MonoBehaviour
     {
         UnSubscribeEvents();
     }
-    private void OnChangeGameState(GameStates currentState)
+    private void OnChangeGameState(GameStates gameState)
     {
-        CurrentState = currentState;
+        _currentState = gameState;
     }
   
     private void OnPlay()
     {
-        CurrentState = GameStates.GameOpen;
+        _currentState = GameStates.GameOpen;
     }
 }
 

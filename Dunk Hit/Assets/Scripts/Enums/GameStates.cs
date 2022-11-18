@@ -3,6 +3,7 @@
     public enum GameStates
     {
         GameOpen,
+        Playing,
         OverTime
     }
 }
