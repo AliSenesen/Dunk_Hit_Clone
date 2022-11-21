@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 7002112039117743613}
-  Speed: 1.5
-  JumpForce: 6
+  trailRenderer: {fileID: 0}
+  Speed: 5
+  JumpForce: 3
   Direction: 1

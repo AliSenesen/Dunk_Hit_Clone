@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Gamemanager;
+using UI;
 using UnityEngine;
 
 namespace Ball
@@ -8,6 +10,7 @@ namespace Ball
     public class BallManager : MonoBehaviour
     {
         [SerializeField] private BallController controller;
+
         private void OnEnable()
         {
             SubscribeEvents();
@@ -15,24 +18,32 @@ namespace Ball
 
         private void SubscribeEvents()
         {
-            InputSignals.Instance.onInputTaken += BallMove;
+            CoreGameSignals.Instance.onReset += OnReset;
+
+            InputSignals.Instance.onInputTaken += OnBallMove;
         }
+
         private void UnSubscribeEvents()
         {
-            InputSignals.Instance.onInputTaken -= BallMove;
+            CoreGameSignals.Instance.onReset += OnReset;
+
+            InputSignals.Instance.onInputTaken -= OnBallMove;
         }
+
 
         private void OnDisable()
         {
             UnSubscribeEvents();
         }
 
-        private void BallMove()
+        private void OnBallMove()
         {
             controller.Jump();
-            
         }
-       
+
+        private void OnReset()
+        {
+            controller.ResetBall();
+        }
     }
 }
-

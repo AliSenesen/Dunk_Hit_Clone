@@ -11,6 +11,7 @@ namespace Gamemanager
     {
         public UnityAction onPlay = delegate {  };
         public UnityAction<GameStates>onChangeGameState = delegate {  };
+        public UnityAction onReset = delegate {  };
         
     }
 }

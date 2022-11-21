@@ -1,15 +1,18 @@
 ﻿using System;
 using Basket;
 using Enums;
+using UI;
 using UnityEngine;
+
 
 namespace Ball
 {
     public class BallController : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D rigidbody;
+        [SerializeField] private TrailRenderer trailRenderer;
 
-        private InputManager _ınputManager;
+       
         private GameStates _currentState;
         private DirectionStates _directionStates;
 
@@ -26,12 +29,14 @@ namespace Ball
         {
             rigidbody.isKinematic = true;
             _directionStates = DirectionStates.Right;
-            _currentState = GameStates.GameOpen;
+            _currentState = GameStates.Playing;
             rigidbody.velocity = new Vector2(Speed * Direction * Time.deltaTime, rigidbody.velocity.y);
         }
 
         private void FixedUpdate()
         {
+            CloseTrailRenderer();
+         
             if (_directionStates == DirectionStates.Right)
             {
                 RightDirection();
@@ -41,7 +46,6 @@ namespace Ball
             if (_directionStates == DirectionStates.Left)
             {
                 LeftDirection();
-                
             }
         }
 
@@ -77,6 +81,19 @@ namespace Ball
                 _directionStates = DirectionStates.Right;
                 RightDirection();
                 BasketSignals.Instance.onChangeBasketDirection?.Invoke();
+                
+            }
+        }
+
+        private void CloseTrailRenderer()
+        {
+            if (rigidbody.transform.position.x < -2.3f || rigidbody.transform.position.x > 2.3f)
+            {
+                trailRenderer.time= 0;
+            }
+            else
+            {
+                trailRenderer.time = .3f;
             }
         }
 
@@ -85,11 +102,17 @@ namespace Ball
             if (other.CompareTag("Enter"))
             {
                 isEnter = true;
+                
             }
 
             if (other.CompareTag("In"))
             {
                 isInside = true;
+            }
+
+            if (other.CompareTag("Ground"))
+            {
+                UISignals.Instance.onCheckOverTime?.Invoke();
             }
         }
 
@@ -120,6 +143,14 @@ namespace Ball
                     ChangeDirection();
                 }
             }
+        }
+
+        public void ResetBall()
+        {
+            rigidbody.velocity = new Vector2(0,0);
+            rigidbody.isKinematic = true;
+            gameObject.transform.position = Vector3.zero;
+
         }
     }
 }

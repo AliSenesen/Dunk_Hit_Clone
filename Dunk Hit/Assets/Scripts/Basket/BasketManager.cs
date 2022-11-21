@@ -60,9 +60,9 @@ namespace Basket
         private void RandomSpawnPos()
         {
             rightBasketPrefab.transform.position =
-                new Vector2(2.7f, Random.Range(-3f, 3f));
+                new Vector2(2.7f, Random.Range(-1f, 2.2f));
             leftBasketPrefab.transform.position =
-                new Vector2(-2.7f, Random.Range(-3f, 3f));
+                new Vector2(-2.7f, Random.Range(-1f, 2.2f));
         }
     }
 }

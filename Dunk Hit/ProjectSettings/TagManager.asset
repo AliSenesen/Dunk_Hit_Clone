@@ -9,6 +9,8 @@ TagManager:
   - LeftWall
   - Out
   - Enter
+  - FxTemporaire
+  - Ground
   layers:
   - Default
   - TransparentFX

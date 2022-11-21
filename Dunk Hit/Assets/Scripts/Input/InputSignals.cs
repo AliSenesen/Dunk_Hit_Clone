@@ -7,4 +7,5 @@ using UnityEngine.Events;
 public class InputSignals : MonoSingleton<InputSignals>
 {
     public UnityAction onInputTaken = delegate {  };
+    public UnityAction<bool>onInputClose = delegate {  };
 }
